@@ -1,0 +1,20 @@
+<section class="mr-container" ng-controller="mangaReaderCtr as mangaReader">
+	<header>
+		<nav class="navbar">
+			<div class="navbar-header">
+			  	<h1 class="navbar-brand">M R</h1>
+			</div>
+			 <ul class="nav navbar-nav">
+				<li class="dropdown">
+				  <select class="mr-manga"  ng-change="mangaReader.selectAction('manga')" ng-model="mangaReader.manga"  ng-options="m for m in mangaReader.mangas track by m"></select>
+				  <select class="mr-chapter" ng-change="mangaReader.selectAction('chapter')" ng-model="mangaReader.chapter"  ng-options="c for c in mangaReader.chapters track by c "></select>
+				  <select class="mr-pages" ng-change="mangaReader.selectAction('page')" ng-model="mangaReader.page"  ng-options="p.page for p in mangaReader.pages track by p.page"></select>
+				</li>
+			  </ul>
+		</nav>
+	</header>
+	<main>
+	</main>
+	<footer></footer>				
+</section>
+
