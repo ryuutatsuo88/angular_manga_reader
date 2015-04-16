@@ -1,26 +1,14 @@
 <section class="mr-container">
-	<header>
-		<nav class="navbar">
-			<div class="navbar-header">
-			  	<h1 class="navbar-brand">Manga Reader</h1>
-			</div>
-			 <ul class="nav navbar-nav">
-				<li class="dropdown">
-				  <select class="mr-manga"  ng-change="mangaReader.selectAction('manga')" ng-model="mangaReader.fact.data.manga"  ng-options="m for m in mangaReader.fact.data.mangas track by m"></select>
-				  <select class="mr-chapter" ng-change="mangaReader.selectAction('chapter')" ng-model="mangaReader.fact.data.chapter"  ng-options="c for c in mangaReader.fact.data.chapters track by c"></select>
-				  <select class="mr-pages" ng-change="mangaReader.selectAction('page')" ng-model="mangaReader.fact.data.page"  ng-options="p for p in mangaReader.fact.data.pages track by p"></select>
-				</li>
-				<li>
-					<button ng-click="mangaReader.navigate('prev')">Prev</button>
-					<button ng-click="mangaReader.navigate('next')">Next</button>
-				</li>
-			  </ul>
-		</nav>
-	</header>
+
+  	<select class="mr-manga"  ng-change="mangaReader.selectAction('manga')" ng-model="mangaReader.fact.data.manga"  ng-options="m for m in mangaReader.fact.data.mangas track by m"></select>
+ 	<select class="mr-chapter" ng-change="mangaReader.selectAction('chapter')" ng-model="mangaReader.fact.data.chapter"  ng-options="c for c in mangaReader.fact.data.chapters track by c"></select>
+  	<select class="mr-pages" ng-change="mangaReader.selectAction('page')" ng-model="mangaReader.fact.data.page"  ng-options="p for p in mangaReader.fact.data.pages track by p"></select>
+
+	<button ng-click="mangaReader.navigate('prev')">Prev</button>
+	<button ng-click="mangaReader.navigate('next')">Next</button>
+
 	<main ng-click="mangaReader.navigate('next')">
 		<img ng-src="manga/{{mangaReader.fact.data.manga}}/{{mangaReader.fact.data.chapter}}/{{mangaReader.fact.data.img}}" />
-		manga/{{mangaReader.fact.data.manga}}/{{mangaReader.fact.data.chapter}}/{{mangaReader.fact.data.img}}
-	</main>
-	<footer></footer>				
+	</main>			
 </section>
 
