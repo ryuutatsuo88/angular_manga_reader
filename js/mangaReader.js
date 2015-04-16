@@ -98,18 +98,6 @@
 			factory.img = factory.pagesData[p].img;
 		};
 		
-		function goTo (direction) {
-			var index = factory.pages.indexOf(factory.page);
-			
-			if (index + 1 < factory.pages.length && index - 1 > 0) {
-				if (direction == "next") {
-					selectPage( factory.pages[index + 1] );
-				} else {
-					selectPage( factory.pages[index - 1] );
-				}
-			}
-		};
-		
 		function init (m, ch, p) {
 			if (factory.firsttime) {
 				factory.firsttime = false;
@@ -144,8 +132,7 @@
 			setCurrentPages: setCurrentPages,
 			selectManga: selectManga,
 			selectChapter: selectChapter,
-			selectPage: selectPage,
-			goTo : goTo
+			selectPage: selectPage
 		};
 	});	
 	
@@ -204,13 +191,28 @@
 				if (direction == "next") {
 					if (index + 1 < $this.fact.data.pages.length) {
 						$this.fact.selectPage( $this.fact.data.pages[index + 1] );
+						$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+					} else if (index + 1 >= $this.fact.data.pages.length) {
+						var chapIndex = $this.fact.data.chapters.indexOf($this.fact.data.chapter);
+						if (chapIndex + 1 < $this.fact.data.chapters.length) {
+							$this.fact.selectChapter($this.fact.data.chapters[chapIndex + 1], function(){
+								$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+							});
+						}
 					}
 				} else {
-					if (index - 1 > 0) {
+					if (index - 1 > -1) {
 						$this.fact.selectPage( $this.fact.data.pages[index - 1] );
+						$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+					} else if (index - 1 <= -1) {
+						var chapIndex = $this.fact.data.chapters.indexOf($this.fact.data.chapter);
+						if (chapIndex - 1 > -1) {
+							$this.fact.selectChapter($this.fact.data.chapters[chapIndex - 1], function(){
+								$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+							});
+						}
 					}
 				}
-				$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 			};
 	}]);
 
