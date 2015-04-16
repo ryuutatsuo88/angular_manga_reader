@@ -9,9 +9,9 @@
 			page : null,
 			mangas : [],
 			chapters : [],
-			origPages : [],
+			pagesData : {},
 			pages : [],
-			current : {}	
+			img : null	
 		};
 		
 		
@@ -19,33 +19,42 @@
 			factory.mangas = a;
 		};
 		
-		function getMangas() {
+		function getMangas(done) {
 			$http.get("api/getmangas.php").success(function(response) {
 				setMangas(response.mangas);
+				done();
 			});
 		};
 		
 		function setChapters(a) {
 			factory.chapters = a;
+			if (factory.chapter == null) {
+				selectChapter(factory.chapters[0]);
+			}
 		};
 		
-		function getChapters() {
+		function getChapters(done) {
 			$http.get("api/getchapters.php?manga=" + factory.manga).success(function(response) {
-				setChapters(response.chapters)
+				setChapters(response.chapters);
+				done();
 			});
 		};
 		
 		function setPages(a) {
 			factory.pages = [];
 			for (var i = 0; i < a.length; i++) {
+				factory.pagesData[a[i].page] = a[i];
 				factory.pages.push(a[i].page);	
+			}
+			if (factory.page == null) {
+				selectPage(factory.pages[0]);
 			}
 		};
 		
-		function getPages() {
+		function getPages(done) {
 			$http.get("api/getpages.php?manga=" + factory.manga + "&chapter=" + factory.chapter).success(function(response) {
-				factory.origPages = response.pages;
 				setPages(response.pages);
+				done();
 			});
 		};
 		
@@ -64,41 +73,48 @@
 			factory.current[manga][ch].pages = p;
 		};
 		
-		function selectManga (m) {
+		function selectManga (m, done) {
 			factory.manga = m;
+			factory.chapters = [];
+			factory.pages = [];
 			factory.chapter = null;
 			factory.page = null;
-			getChapters();
+			getChapters(function () {
+				done();
+			});
 		}; 
 		
-		function selectChapter (ch) {
+		function selectChapter (ch, done) {
 			factory.chapter = ch;
-			getPages();
 			factory.page = null;
+			factory.pages = [];
+			getPages(function () {
+				done();
+			});
 		};
 		
 		function selectPage (p) {
 			factory.page = p;
+			factory.img = factory.pagesData[p].img;
 		};
-
-// 				current : {
-// 					"manganame" : {
-// 						"chaptername" : {
-// 							pages : ["1.png", "2.png"],
-//							
-// 						}
-// 					}
-// 				}
 		
 		function init (m, ch, p) {
 			if (factory.firsttime) {
 				factory.firsttime = false;
-				factory.manga = m;
-				factory.chapter = ch;
-				factory.page = p;
-				getMangas();
-				getChapters();
-				getPages();
+				
+				getMangas(function () {
+					if (m) {
+						selectManga(m, function () {
+							if (ch) {
+								selectChapter(ch, function () {
+									if (p) {
+										selectPage(p)
+									}
+								});
+							}
+						});
+					}
+				});
 			}
 		};
 		

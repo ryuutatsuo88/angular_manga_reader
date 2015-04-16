@@ -2,7 +2,7 @@
 	<header>
 		<nav class="navbar">
 			<div class="navbar-header">
-			  	<h1 class="navbar-brand"></h1>
+			  	<h1 class="navbar-brand">Manga Reader</h1>
 			</div>
 			 <ul class="nav navbar-nav">
 				<li class="dropdown">
@@ -14,7 +14,7 @@
 		</nav>
 	</header>
 	<main>
-		<img ng-src="mangaReader.fact.data.image" />
+		<img ng-src="manga/{{mangaReader.fact.data.manga}}/{{mangaReader.fact.data.chapter}}/{{mangaReader.fact.data.img}}" />
 	</main>
 	<footer></footer>				
 </section>
