@@ -29,7 +29,7 @@
 		function setChapters(a) {
 			factory.chapters = a;
 			if (factory.chapter == null) {
-				selectChapter(factory.chapters[0]);
+				selectChapter(factory.chapters[0], function(){});
 			}
 		};
 		
@@ -98,6 +98,18 @@
 			factory.img = factory.pagesData[p].img;
 		};
 		
+		function goTo (direction) {
+			var index = factory.pages.indexOf(factory.page);
+			
+			if (index + 1 < factory.pages.length && index - 1 > 0) {
+				if (direction == "next") {
+					selectPage( factory.pages[index + 1] );
+				} else {
+					selectPage( factory.pages[index - 1] );
+				}
+			}
+		};
+		
 		function init (m, ch, p) {
 			if (factory.firsttime) {
 				factory.firsttime = false;
@@ -132,7 +144,8 @@
 			setCurrentPages: setCurrentPages,
 			selectManga: selectManga,
 			selectChapter: selectChapter,
-			selectPage: selectPage
+			selectPage: selectPage,
+			goTo : goTo
 		};
 	});	
 	
@@ -175,15 +188,29 @@
 			
 			$this.selectAction = function(sel) {
 				if (sel == "manga") {
-					$this.fact.selectManga($this.fact.data.manga);
+					$this.fact.selectManga($this.fact.data.manga, function(){});
 					$location.path($this.fact.data.manga);
 				} else if (sel == "chapter") {
-					$this.fact.selectChapter($this.fact.data.chapter);
+					$this.fact.selectChapter($this.fact.data.chapter, function(){});
 					$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter);
 				} else if (sel == "page") {
 					$this.fact.selectPage($this.fact.data.page);
 					$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 				}
+			};
+			
+			$this.navigate = function (direction) {
+				var index = $this.fact.data.pages.indexOf($this.fact.data.page);
+				if (direction == "next") {
+					if (index + 1 < $this.fact.data.pages.length) {
+						$this.fact.selectPage( $this.fact.data.pages[index + 1] );
+					}
+				} else {
+					if (index - 1 > 0) {
+						$this.fact.selectPage( $this.fact.data.pages[index - 1] );
+					}
+				}
+				$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 			};
 	}]);
 
