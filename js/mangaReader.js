@@ -58,21 +58,6 @@
 			});
 		};
 		
-		function setCurrent(manga) {
-			factory.current = {};
-			factory.current[manga] = {};
-		};
-		
-		function setCurrentChapter(manga, ch) {
-			setCurrent(manga);
-			factory.current[manga][ch] = {};
-		};
-		
-		function setCurrentPages(manga, ch, p) {
-			setCurrentChapter(manga, ch);
-			factory.current[manga][ch].pages = p;
-		};
-		
 		function selectManga (m, done) {
 			factory.manga = m;
 			factory.chapters = [];
@@ -127,9 +112,6 @@
 			getChapters: getChapters,
 			setPages: setPages,
 			getPages: getPages,
-			setCurrent: setCurrent,
-			setCurrentChapter: setCurrentChapter,
-			setCurrentPages: setCurrentPages,
 			selectManga: selectManga,
 			selectChapter: selectChapter,
 			selectPage: selectPage
