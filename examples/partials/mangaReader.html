@@ -1,0 +1,14 @@
+<section class="mr-container">
+
+  	<select class="mr-manga"  ng-change="mangaReader.selectAction('manga')" ng-model="mangaReader.fact.data.manga"  ng-options="m for m in mangaReader.fact.data.mangas track by m"></select>
+ 	<select class="mr-chapter" ng-change="mangaReader.selectAction('chapter')" ng-model="mangaReader.fact.data.chapter"  ng-options="c for c in mangaReader.fact.data.chapters track by c"></select>
+  	<select class="mr-pages" ng-change="mangaReader.selectAction('page')" ng-model="mangaReader.fact.data.page"  ng-options="p for p in mangaReader.fact.data.pages track by p"></select>
+
+	<button ng-click="mangaReader.navigate('prev')">Prev</button>
+	<button ng-click="mangaReader.navigate('next')">Next</button>
+
+	<main ng-click="mangaReader.navigate('next')">
+		<img ng-src="{{mangaReader.fact.data.img}}" />
+	</main>			
+</section>
+
