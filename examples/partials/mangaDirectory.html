@@ -1,0 +1,14 @@
+<section ng-controller="mangaDirectoryCtr as dir">
+Manga Directory
+
+<ul>
+	<li ng-repeat="manga in dir.mangas | myLimitTo: 500">
+	 <a href="#/mangareader/{{manga.t}}">
+		{{manga.t}}
+		<img ng-src="{{'https://cdn.mangaeden.com/mangasimg/' + manga.im}}" style="width:100px;"/>
+		</a>
+	</li>
+</ul>
+			
+</section>
+

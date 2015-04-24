@@ -123,6 +123,16 @@
 						});
 					}
 				});
+			} else if (!factory.firsttime && m){
+				selectManga(m, function () {
+					if (ch) {
+						selectChapter(ch, function () {
+							if (p) {
+								selectPage(p)
+							}
+						});
+					}
+				});
 			}
 		};
 		
@@ -143,33 +153,24 @@
 	
 	app.config(['$routeProvider', function($routeProvider) {
 			$routeProvider.
-			  when("/", {
-			  		template: " ",
+    		  when("/mangareader", {
+			  		templateUrl: "partials/mangaReader.html",
       				controller: 'mangaReaderCtr'
     		  }).
-			  when("/:manga", {
-			  		template: " ",
+			  when("/mangareader/:manga", {
+			  		templateUrl: "partials/mangaReader.html",
 					controller: 'mangaReaderCtr'
 			  }).
-			  when("/:manga/:chapter", {
-			  		template: " ",
+			  when("/mangareader/:manga/:chapter", {
+			  		templateUrl: "partials/mangaReader.html",
 					controller: 'mangaReaderCtr'
 			  }).
-			  when("/:manga/:chapter/:page", {
-			  		template: " ",
+			  when("/mangareader/:manga/:chapter/:page", {
+			  		templateUrl: "partials/mangaReader.html",
 					controller: 'mangaReaderCtr'
 			  })
   	}]);
-	
-	app.directive("mangaReader", function () {
-		return {
-			resrict: "E",
-			replace: true,
-			controller: "mangaReaderCtr",
-			controllerAs: "mangaReader",
-			templateUrl: "partials/mangaReader.html"
-		};
-	});
+
 	
 	app.controller("mangaReaderCtr", ['$scope', '$http', '$location', '$routeParams', 'Collection',
 		function($scope, $http, $location, $routeParams, Collection){
@@ -181,13 +182,13 @@
 			$this.selectAction = function(sel) {
 				if (sel == "manga") {
 					$this.fact.selectManga($this.fact.data.manga, function(){});
-					$location.path($this.fact.data.manga);
+					$location.path("mangareader/" + $this.fact.data.manga);
 				} else if (sel == "chapter") {
 					$this.fact.selectChapter($this.fact.data.chapter, function(){});
-					$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter);
+					$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter);
 				} else if (sel == "page") {
 					$this.fact.selectPage($this.fact.data.page);
-					$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+					$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 				}
 			};
 			
@@ -196,24 +197,24 @@
 				if (direction == "next") {
 					if (index + 1 < $this.fact.data.pages.length) {
 						$this.fact.selectPage( $this.fact.data.pages[index + 1] );
-						$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+						$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 					} else if (index + 1 >= $this.fact.data.pages.length) {
 						var chapIndex = $this.fact.data.chapters.indexOf($this.fact.data.chapter);
 						if (chapIndex + 1 < $this.fact.data.chapters.length) {
 							$this.fact.selectChapter($this.fact.data.chapters[chapIndex + 1], function(){
-								$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+								$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 							});
 						}
 					}
 				} else {
 					if (index - 1 > -1) {
 						$this.fact.selectPage( $this.fact.data.pages[index - 1] );
-						$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+						$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 					} else if (index - 1 <= -1) {
 						var chapIndex = $this.fact.data.chapters.indexOf($this.fact.data.chapter);
 						if (chapIndex - 1 > -1) {
 							$this.fact.selectChapter($this.fact.data.chapters[chapIndex - 1], function(){
-								$location.path($this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
+								$location.path("mangareader/" + $this.fact.data.manga + "/" + $this.fact.data.chapter + "/" + $this.fact.data.page);
 							});
 						}
 					}
